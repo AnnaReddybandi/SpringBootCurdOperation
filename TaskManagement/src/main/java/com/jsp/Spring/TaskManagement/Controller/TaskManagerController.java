@@ -1,5 +1,6 @@
 package com.jsp.Spring.TaskManagement.Controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,16 @@ public class TaskManagerController {
  response.setMesg("datasaved"); 
  response.setData(task);
  return response; }
- 
+
+    @GetMapping("/getall")
+    public ResponseStructure<List<Task>> getAllTasks() {
+        List<Task> tasks = repositary.findAll();
+        ResponseStructure<List<Task>> response = new ResponseStructure<>();
+        response.setStatueCode(HttpStatus.OK.value());
+        response.setMesg("All tasks fetched successfully");
+        response.setData(tasks);
+        return response;
+    }
 
 @GetMapping("/validatelogin")
 public ResponseStructure<Task> validatedate(@RequestBody  CheckLogin checklogin) {

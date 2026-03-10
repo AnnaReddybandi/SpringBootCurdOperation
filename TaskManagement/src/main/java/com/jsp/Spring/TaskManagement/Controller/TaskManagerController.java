@@ -102,5 +102,17 @@ public ResponseStructure<Task> modify(@RequestParam("name") String name , @Reque
 	return response;
 }
 
-
+@GetMapping("/searchtask")
+public ResponseStructure<List<Task>> searchTask(@RequestParam("name") String name) {
+    List<Task> tasks = repositary.findByNameContainingIgnoreCase(name);
+    ResponseStructure<List<Task>> response = new ResponseStructure<>();
+    response.setStatueCode(HttpStatus.OK.value());
+    if (tasks.isEmpty()) {
+        response.setMesg("No tasks found with name: " + name);
+    } else {
+        response.setMesg("Tasks fetched successfully for name: " + name);
+    }
+    response.setData(tasks);
+    return response;
+}
 }

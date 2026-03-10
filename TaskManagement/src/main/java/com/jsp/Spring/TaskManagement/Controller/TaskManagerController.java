@@ -115,4 +115,26 @@ public ResponseStructure<List<Task>> searchTask(@RequestParam("name") String nam
     response.setData(tasks);
     return response;
 }
+
+@GetMapping("/searchByEmail")
+public ResponseStructure<Task> searchByEmail(@RequestParam("email") String email) {
+
+	Task task = repositary.findByEmail(email);
+
+	if(task != null) {
+
+		ResponseStructure<Task> response = new ResponseStructure<>();
+
+		response.setStatueCode(HttpStatus.OK.value());
+		response.setMesg("Task found by email");
+		response.setData(task);
+
+		return response;
+	}
+
+	else {
+
+		throw new TaskNotFound("Task not found with email : " + email);
+	}
+}
 }
